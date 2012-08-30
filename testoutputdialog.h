@@ -31,16 +31,11 @@ private:
 	//route pattern vars
 	int rp_number;
 	std::string rp_pattern[15];
+	std::string rp_description[15];
 	std::string rp_partition[15];
 	int rp_route[15];
 	int rp_urgent[15];
-	
-	struct RoutePatternStruct {
-		std::string rp_pattern_s;
-		std::string rp_partition_s;
-		int rp_route_s;
-		int rp_urgent_s;
-	};
+	std::string rp_list[15];
 	
 	//route list vars
 	int rl_number;
@@ -53,7 +48,7 @@ private:
 	std::string rg_devices[15];
 	
 private slots:
-	void resetCount();
+	void resetCount(std::string type);
 };
 
 #endif //TESTOUTPUTDIALOG_H

@@ -33,11 +33,15 @@ TestOutputDialog::TestOutputDialog(QWidget *parent) : QDialog(parent)
 						break;
 						
 					case 1:
+						rp_description[rp_number] = settingsOutput;
+						textEdit->append(QString::fromStdString(settingsOutput));
+						
+					case 2:
 						rp_partition[rp_number] = settingsOutput;
 						textEdit->append(QString::fromStdString(settingsOutput));
 						break;
 						
-					case 2:
+					case 3:
 						if (settingsOutput == "Y")
 							rp_route[rp_number] = 1;
 						else
@@ -46,7 +50,7 @@ TestOutputDialog::TestOutputDialog(QWidget *parent) : QDialog(parent)
 						textEdit->append(QString::fromStdString(settingsOutput));
 						break;
 							
-					case 3:
+					case 4:
 						if (settingsOutput == "Y")
 							rp_urgent[rp_number] = 1;
 						else
@@ -54,31 +58,74 @@ TestOutputDialog::TestOutputDialog(QWidget *parent) : QDialog(parent)
 							
 						textEdit->append(QString::fromStdString(settingsOutput));
 						break;
+						
+					case 5:
+						rp_list[rp_number] = settingsOutput;
+						textEdit->append(QString::fromStdString(settingsOutput));
 				}
 				count += 1;
-				
-				//RESET COUNT
-				if (count == reqCount) {
-					resetCount();
-				}
 			}
 			
-			//ROUTE LIST
 			
-			//GENERAL DETECTION
+			//ROUTE LIST
+			if ((routeListDetected) && (count != reqCount)) {
+				switch(count) {
+					case 0:
+						rl_name[rl_number] = settingsOutput;
+						textEdit->append(QString::fromStdString(settingsOutput));
+						break;
+						
+					case 1:
+						rl_cluster[rl_number] = settingsOutput;
+						textEdit->append(QString::fromStdString(settingsOutput));
+						break;
+					
+					case 2:
+						rl_group[rl_number] = settingsOutput;
+						textEdit->append(QString::fromStdString(settingsOutput));
+						break;
+				}
+				count += 1;
+			}
+			
+			//RESET COUNT
+			if (count == reqCount) {
+				resetCount();
+			}
+			
+			
+			//DETECTION
 			if (settingsOutput == "RoutePattern") {
 				textEdit->append("Route Pattern Detected.\n");
 				routePatternDetected = true;
-				reqCount = 4;
+				reqCount = 5;
+				count = 0;
+			}
+			
+			if (settingsOutput == "RouteList") {
+				textEdit->append("Route List Detected.\n");
+				routeListDetected = true;
+				reqCount = 3;
 				count = 0;
 			}
 		}
 }
 
-void TestOutputDialog::resetCount()
+void TestOutputDialog::resetCount(string type)
 {
-	TestOutputDialog::routePatternDetected = false;
-	TestOutputDialog::routeListDetected = false;
-	TestOutputDialog::routeGroupDetected = false;
+	if (type == "RP") {
+		TestOutputDialog::routePatternDetected = false;
+		TestOutputDialog::rp_number += 1;
+	}
+	
+	if (type = "RL") {
+		TestOutputDialog::routeListDetected = false;
+		TestOutputDialog::rl_number += 1;
+	}
+	
+	if (type = "RG") {
+		TestOutputDialog::routeGroupDetected = false;
+		TestOutputDialog::rg_number += 1;
+	}
 	TestOutputDialog::count = 0;
 }
