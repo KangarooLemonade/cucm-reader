@@ -45,6 +45,7 @@ private:
 	
 	//route group vars
 	int rg_number;
+	std::string rg_name[15];
 	std::string rg_devices[15];
 	
 private slots:

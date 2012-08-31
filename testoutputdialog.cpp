@@ -30,6 +30,7 @@ TestOutputDialog::TestOutputDialog(QWidget *parent) : QDialog(parent)
 					case 0:
 						rp_pattern[rp_number] = settingsOutput;
 						textEdit->append(QString::fromStdString(settingsOutput));
+						routePatternBrowser->append(QString::fromStdString(settingsOutput));
 						break;
 						
 					case 1:
@@ -64,6 +65,11 @@ TestOutputDialog::TestOutputDialog(QWidget *parent) : QDialog(parent)
 						textEdit->append(QString::fromStdString(settingsOutput));
 				}
 				count += 1;
+				
+				//RESET COUNT
+				if (count == reqCount) {
+					resetCount("RP");
+				}
 			}
 			
 			
@@ -73,6 +79,7 @@ TestOutputDialog::TestOutputDialog(QWidget *parent) : QDialog(parent)
 					case 0:
 						rl_name[rl_number] = settingsOutput;
 						textEdit->append(QString::fromStdString(settingsOutput));
+						routeListBrowser->append(QString::fromStdString(settingsOutput));
 						break;
 						
 					case 1:
@@ -86,11 +93,35 @@ TestOutputDialog::TestOutputDialog(QWidget *parent) : QDialog(parent)
 						break;
 				}
 				count += 1;
+				
+				//RESET COUNT
+				if (count == reqCount) {
+					resetCount("RL");
+				}
 			}
 			
-			//RESET COUNT
-			if (count == reqCount) {
-				resetCount();
+			
+			//ROUTE GROUP
+			
+			if ((routeGroupDetected) && (count != reqCount)) {
+				switch(count) {
+					case 0:
+						rg_name[rg_number] = settingsOutput;
+						textEdit->append(QString::fromStdString(settingsOutput));
+						routeGroupBrowser->append(QString::fromStdString(settingsOutput));
+						break;
+					
+					case 1:
+						rg_devices[rg_number] = settingsOutput;
+						textEdit->append(QString::fromStdString(settingsOutput));
+						break;
+				}
+				count += 1;
+				
+				//RESET COUNT
+				if (count == reqCount) {
+					resetCount("RG");
+				}
 			}
 			
 			
@@ -108,6 +139,13 @@ TestOutputDialog::TestOutputDialog(QWidget *parent) : QDialog(parent)
 				reqCount = 3;
 				count = 0;
 			}
+			
+			if (settingsOutput == "RouteGroup") {
+				textEdit->append("Route Group Detected.\n");
+				routeGroupDetected = true;
+				reqCount = 2;
+				count = 0;
+			}
 		}
 }
 
@@ -116,16 +154,19 @@ void TestOutputDialog::resetCount(string type)
 	if (type == "RP") {
 		TestOutputDialog::routePatternDetected = false;
 		TestOutputDialog::rp_number += 1;
+		textEdit->append("End of Route Pattern.");
 	}
 	
-	if (type = "RL") {
+	if (type == "RL") {
 		TestOutputDialog::routeListDetected = false;
 		TestOutputDialog::rl_number += 1;
+		textEdit->append("End of Route List.");
 	}
 	
-	if (type = "RG") {
+	if (type == "RG") {
 		TestOutputDialog::routeGroupDetected = false;
 		TestOutputDialog::rg_number += 1;
+		textEdit->append("End of Route Group.");
 	}
 	TestOutputDialog::count = 0;
 }
