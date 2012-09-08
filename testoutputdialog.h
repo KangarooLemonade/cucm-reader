@@ -2,7 +2,6 @@
 #define TESTOUTPUTDIALOG_H
 
 #include <QDialog>
-#include <boost/tokenizer.hpp>
 #include <fstream>
 #include <iostream>
 #include <map>

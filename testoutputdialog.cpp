@@ -3,7 +3,6 @@
 #include "testoutputdialog.h"
 
 using namespace std;
-using namespace boost;
 
 TestOutputDialog::TestOutputDialog(QWidget *parent) : QDialog(parent)
 {
