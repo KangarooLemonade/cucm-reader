@@ -2,10 +2,13 @@
 #define TESTOUTPUTDIALOG_H
 
 #include <QDialog>
+#include <boost/tokenizer.hpp>
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <sstream>
 #include <string>
+#include <vector>
 
 #include "ui_testoutputdialog.h"
 
@@ -17,11 +20,10 @@ public:
 	TestOutputDialog(QWidget *parent = 0);
 	
 private:
-	QString settingsInput;
 	std::string settingsOutput;
-	QString qSettingsOutput;
 	QString tempString;
 	
+	//detection vars
 	bool routePatternDetected;
 	bool routeListDetected;
 	bool routeGroupDetected;
@@ -47,9 +49,18 @@ private:
 	int rg_number;
 	std::string rg_name[15];
 	std::string rg_devices[15];
+	std::string tempDeviceList[50];
 	
 private slots:
+	//route section
 	void resetCount(std::string type);
+	
+	std::vector<std::string> split(const std::string &s, char delim, std::vector<std::string> &elems);
+	
+	void mapToTree();
+	QTreeWidgetItem* mapList(std::string patternName);
+	QTreeWidgetItem* mapGroup(std::string patternName);
+	QTreeWidgetItem* mapDevice(std::string device);
 };
 
 #endif //TESTOUTPUTDIALOG_H
